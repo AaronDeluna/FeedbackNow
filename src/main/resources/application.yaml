@@ -1,0 +1,6 @@
+server:
+  port: 8080
+
+qr:
+  api: https://api.qrserver.com/v1/create-qr-code/?data=%s&size=%s
+  size: 250x250
