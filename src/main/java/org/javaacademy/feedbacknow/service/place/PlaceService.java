@@ -2,17 +2,19 @@ package org.javaacademy.feedbacknow.service.place;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.javaacademy.feedbacknow.dto.CreatePlaceDto;
 import org.javaacademy.feedbacknow.dto.PlaceDto;
-import org.javaacademy.feedbacknow.dto.UpdatePlaceDto;
 import org.javaacademy.feedbacknow.mapper.PlaceMapper;
 import org.javaacademy.feedbacknow.repository.PlaceRepository;
 import org.javaacademy.feedbacknow.service.integration.qr.QrGenerationService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PlaceService {
     private final QrGenerationService qrGenerationService;
@@ -21,7 +23,10 @@ public class PlaceService {
 
     public UUID createPlace(CreatePlaceDto createPlaceDto) {
         PlaceDto placeDto = placeMapper.toDto(createPlaceDto);
-        placeDto.setQrCode(qrGenerationService.getQrCode(placeDto.getName()));
+        placeDto.setUuid(UUID.randomUUID());
+        placeDto.setRate(0);
+        placeDto.setFeedbacks(new ArrayList<>());
+        placeDto.setQrCode(qrGenerationService.getQrCode(placeDto.getUuid()));
         return placeRepository.save(placeMapper.toEntity(placeDto));
     }
 
@@ -33,8 +38,8 @@ public class PlaceService {
         return placeMapper.toDto(placeRepository.findByName(name));
     }
 
-//    public void updatePlace(UUID uuid, UpdatePlaceDto updatePlaceDto) {
-//
-//    }
+    public PlaceDto findByUuid(UUID uuid) {
+        return placeMapper.toDto(placeRepository.findByUuid(uuid));
+    }
 
 }

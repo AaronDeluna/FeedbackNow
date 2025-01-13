@@ -1,11 +1,13 @@
 package org.javaacademy.feedbacknow.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.javaacademy.feedbacknow.dto.CreatePlaceDto;
 import org.javaacademy.feedbacknow.dto.PlaceDto;
 import org.javaacademy.feedbacknow.entity.Place;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class PlaceMapper {
 
     public PlaceDto toDto(CreatePlaceDto createPlaceDto) {
@@ -27,11 +29,13 @@ public class PlaceMapper {
                 .timeClose(entity.getTimeClose())
                 .phone(entity.getPhone())
                 .qrCode(entity.getQrCode())
+                .feedbacks(entity.getFeedbacks())
                 .build();
     }
 
     public Place toEntity(PlaceDto dto) {
         return Place.builder()
+                .uuid(dto.getUuid())
                 .name(dto.getName())
                 .cookingType(dto.getCookingType())
                 .timeOpen(dto.getTimeOpen())
@@ -39,6 +43,7 @@ public class PlaceMapper {
                 .rate(dto.getRate())
                 .phone(dto.getPhone())
                 .qrCode(dto.getQrCode())
+                .feedbacks(dto.getFeedbacks())
                 .build();
     }
 }

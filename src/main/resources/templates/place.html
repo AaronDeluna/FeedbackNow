@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${placeName}">Place Name</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4caf50;
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .feedback-form {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .feedback-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .feedback-form input[type="text"],
+        .feedback-form input[type="number"],
+        .feedback-form input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .feedback-form button {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .feedback-form button:hover {
+            background-color: #45a049;
+        }
+
+        .feedbacks-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .feedback-item {
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-item p {
+            margin: 5px 0;
+        }
+
+        .feedback-item .stars {
+            font-size: 18px;
+            color: #ff9800;
+        }
+
+        .feedback-item .message {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1 th:text="${placeName}">Place Name</h1>
+
+<!-- Форма для отправки отзыва -->
+<div class="feedback-form">
+    <h2>Leave Your Feedback</h2>
+    <form th:action="@{/place/{uuid}/feedback(uuid=${uuid})}" method="post">
+        <input type="hidden" name="placeName" th:value="${placeName}">
+        <input type="hidden" name="uuid" th:value="${uuid}">
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message" placeholder="Enter your feedback" required>
+
+        <label for="starsCount">Stars:</label>
+        <input type="number" id="starsCount" name="starsCount" min="1" max="5" required>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<!-- Отзывы -->
+<div class="feedbacks-container">
+    <h2>All Feedbacks</h2>
+    <ul>
+        <li th:each="feedback : ${feedbacks}" class="feedback-item">
+            <p class="phone" th:text="${feedback.phoneNumber}">Phone: 000-000-0000</p>
+            <p class="message" th:text="${feedback.message}">Feedback Message</p>
+            <p class="stars">Stars: <span th:text="${feedback.starsCount}">0</span></p>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

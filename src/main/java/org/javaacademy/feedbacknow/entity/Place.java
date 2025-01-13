@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 @Builder
@@ -20,4 +22,5 @@ public class Place {
     private float rate;
     private String phone;
     private byte[] qrCode;
+    private List<Feedback> feedbacks;
 }
